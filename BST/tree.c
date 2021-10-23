@@ -92,7 +92,8 @@ void postFree(BinTreeNode *pNode)
 	if (pNode) {
     postFree(pNode->pLeftChild);
     postFree(pNode->pRightChild);
-    deleteBinTreeNode(pNode);
+    free(pNode);
+	pNode = NULL;
   }
 }
 
@@ -106,11 +107,13 @@ void deleteBinTree(BinTree* pBinTree)
 	pBinTree = NULL;
 }
 
-void deleteBinTreeNode(BinTreeNode* pNode)
+void deleteBinTreeNode(BinTreeNode** pNode)
 {
-	if (pNode)
-	{
-  		free(pNode);
-		pNode = NULL;
+	if ((*pNode)->pLeftChild == NULL && (*pNode)->pRightChild == NULL) {
+		free(*pNode);
+		*pNode = NULL;
+	} else {
+		printf("Delete Error!\n");
+		return;
 	}
 }
