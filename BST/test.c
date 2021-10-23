@@ -4,7 +4,9 @@ int main ()
 {
 	BinTree *testTree;
 	BinTreeNode rootNode;
-
+	//   A
+	//  B C
+	// D   E
 	rootNode.data = 'A';
 	testTree = makeBinTree(rootNode);
 	
@@ -16,16 +18,18 @@ int main ()
 	insertRightChildNodeBT(getRootNodeBT(testTree), element);	
 	printf("right Node : %c\n", getRightChildNodeBT(testTree->pRootNode)->data);
 	element.data = 'D';
+	insertLeftChildNodeBT(getRootNodeBT(testTree)->pLeftChild, element);
+	element.data = 'E';
 	insertRightChildNodeBT(getRootNodeBT(testTree)->pRightChild, element);	
 	
-	deleteBinTree(testTree);
-	printf(">>> %p", testTree);
+	// deleteBinTree(testTree);
+	deleteBinTreeNode(&(getRootNodeBT(testTree)->pRightChild->pRightChild));
 
-	printf("\033[34minOrder\n");
-	inOrder(testTree->pRootNode);
-	printf("\n");
 	printf("\033[33mpreOrder\n");
 	preOrder(testTree->pRootNode);
+	printf("\n");
+	printf("\033[34minOrder\n");
+	inOrder(testTree->pRootNode);
 	printf("\n");
 	printf("\033[35mpostOrder\n");
 	postOrder(testTree->pRootNode);
