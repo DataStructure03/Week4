@@ -1,21 +1,5 @@
 #include "tree.h"
 
-/*
-typedef struct BINTREENodeType
-{
-  char  data;
-  int   visited;
-  
-  struct  BINTREENodeType* pLeftChild;
-  struct  BINTREENodeType* pRightChild;
-} BinTreeNode;
-
-typedef struct  BINTREEType
-{
-  BinTreeNode* pRootNode;
-} BinTree;
-*/
-
 BinTree*        makeBinTree(BinTreeNode rootNode)
 {
     BinTree *res;
@@ -110,13 +94,31 @@ void            deleteBinTree(BinTree* pBinTree)
 	free(pBinTree);
 }
 
-void		printfTree(BinTreeNode *pBinTreeNode, int i)
+void		Preorder(BinTreeNode *pBinTreeNode, int i)
 {
 	if (!pBinTreeNode)
 		return ;
-	printf("height : %d | %c\n", i, pBinTreeNode->data);
-	printfTree(pBinTreeNode->pLeftChild, i++);
-	printfTree(pBinTreeNode->pRightChild, i++);
+	printf("Preorder height : %d | %c\n", i, pBinTreeNode->data);
+	Preorder(pBinTreeNode->pLeftChild, i + 1);
+	Preorder(pBinTreeNode->pRightChild, i + 1);
+}
+
+void		Inorder(BinTreeNode *pBinTreeNode, int i)
+{
+	if (!pBinTreeNode)
+		return ;
+	Inorder(pBinTreeNode->pLeftChild, i + 1);
+	printf("Inorder height : %d | %c\n", i, pBinTreeNode->data);
+	Inorder(pBinTreeNode->pRightChild, i + 1);
+}
+
+void		Postorder(BinTreeNode *pBinTreeNode, int i)
+{
+	if (!pBinTreeNode)
+		return ;
+	Postorder(pBinTreeNode->pLeftChild, i + 1);
+	Postorder(pBinTreeNode->pRightChild, i + 1);
+	printf("Postorder height : %d | %c\n", i, pBinTreeNode->data);
 }
 
 BinTreeNode *save_tree(BinTreeNode *node, int data, int max)
@@ -127,13 +129,12 @@ BinTreeNode *save_tree(BinTreeNode *node, int data, int max)
 
     if (max <= data)
         return (NULL);
-    element.data = 'a' + data;
+    element.data = node->data + data;
     element.visited = 0;
-    Lnode = insertLeftChildNodeBT(node, element);
-    
-    element.data = 'a' + data + 1;
+    Lnode = insertLeftChildNodeBT(node, element)->pLeftChild;
+    element.data = node->data + data + 1;
     element.visited = 0;
-    Rnode = insertRightChildNodeBT(node, element);
+    Rnode = insertRightChildNodeBT(node, element)->pRightChild;
     save_tree(Lnode, data * 2, max);
     save_tree(Rnode, data * 2 + 1, max);
     return (node);
@@ -149,8 +150,20 @@ int main(void)
 	rootNode.pLeftChild = NULL;
 	rootNode.pRightChild = NULL;
 	pBinTree = makeBinTree(rootNode);
-	save_tree(pBinTree->pRootNode, 1, 30);
-	printfTree(pBinTree->pRootNode, 0);
+	save_tree(pBinTree->pRootNode, 1, 8);
+    /*
+            a
+        b  	    c
+      d   e    f   g
+     h i j k  l m n o
+    */
+    printf("\nPreorder\n");
+	Preorder(pBinTree->pRootNode, 0);
+    printf("\nInorder\n");
+	Inorder(pBinTree->pRootNode, 0);
+    printf("\nPostorder\n");
+	Postorder(pBinTree->pRootNode, 0);
+    printf("\n");
 	deleteBinTree(pBinTree);
     return(0);
 }
