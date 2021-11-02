@@ -4,9 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef char Data;
+
 typedef struct BinTreeNodeType
 {
-	char data;
+	Data data;
 	int	visited;
 
 	struct BinTreeNodeType* pLeftChild;
