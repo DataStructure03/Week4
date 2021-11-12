@@ -76,8 +76,8 @@ void heapify(Heap* heap, int parentIndex)
 
 	if (left > heap->currentCount - 1)
 		return;
-	else if (right > heap->currentCount - 1)
-		biggerChild = right;
+// 	else if (right > heap->currentCount - 1)
+// 		biggerChild = right;
 	else if (heap->data[left].priority > heap->data[right].priority)
 		biggerChild = left;
 	else
